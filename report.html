@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0F0F1A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>เป๋าพลัส | รายงาน</title>
+    <link rel="icon" href="https://i.ibb.co/VYdqpR1M/Walletplus.png">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <style>
+        :root {
+            --bg: #0F0F1A;
+            --surface: #1C1C2E;
+            --surface2: #252540;
+            --surface3: #2E2E50;
+            --accent: #6C63FF;
+            --inc: #00D2A0;
+            --exp: #FF6584;
+            --warn: #FFB347;
+            --text: #E8E8F0;
+            --text2: #9090B0;
+            --border: rgba(255, 255, 255, 0.07);
+            --r: 18px;
+            --r-sm: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: rgba(15, 15, 26, .9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding-top: env(safe-area-inset-top, 0)
+        }
+
+        .top-bar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 16px
+        }
+
+        .logo {
+            font-size: 1.35rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6C63FF, #FF6584);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            padding: 7px 13px;
+            border-radius: 50px;
+            font-family: 'Kanit', sans-serif;
+            font-size: .78rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s
+        }
+
+        .back-btn:active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent)
+        }
+
+        .sync-pill {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .68rem;
+            padding: 5px 11px;
+            border-radius: 50px;
+            border: 1px solid;
+            font-weight: 500;
+            transition: all 5s
+        }
+
+        .sync-pill.ok {
+            color: var(--inc);
+            border-color: rgba(0, 210, 160, .25);
+            background: rgba(0, 210, 160, .08)
+        }
+
+        .sync-pill.loading {
+            color: var(--warn);
+            border-color: rgba(255, 179, 71, .3);
+            background: rgba(255, 179, 71, .08)
+        }
+
+        .sync-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor
+        }
+
+        .sync-pill.loading .sync-dot {
+            animation: blink 1s infinite
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .2
+            }
+        }
+
+        /* MAIN */
+        .main {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 0 80px
+        }
+
+        /* SECTION */
+        .section {
+            margin: 14px 16px
+        }
+
+        .section-title {
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        /* MONTH SELECTOR */
+        .month-row {
+            display: flex;
+            gap: 8px;
+            padding: 20px 10px 20px 10px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none
+        }
+
+        .month-row::-webkit-scrollbar {
+            display: none
+        }
+
+        .month-chip {
+            flex-shrink: 0;
+            padding: 7px 15px;
+            border-radius: 50px;
+            border: 1.5px solid var(--border);
+            background: transparent;
+            color: var(--text2);
+            font-family: 'Kanit', sans-serif;
+            font-size: .78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 10s;
+            white-space: nowrap
+        }
+
+        .month-chip.active {
+            background: rgba(108, 99, 255, .12);
+            border-color: var(--accent);
+            color: var(--accent);
+            font-weight: 700
+        }
+
+        /* SUMMARY CARDS */
+        .sum-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 14px 16px
+        }
+
+        .sum-card {
+            background: var(--surface);
+            border-radius: var(--r-sm);
+            padding: 12px 10px;
+            border: 1px solid var(--border);
+            text-align: center
+        }
+
+        .sum-icon {
+            font-size: 1.1rem;
+            margin-bottom: 5px
+        }
+
+        .sum-label {
+            font-size: .65rem;
+            color: var(--text2);
+            margin-bottom: 3px
+        }
+
+        .sum-val {
+            font-size: 1.5rem;
+            font-weight: 600
+        }
+
+        .sum-val.inc {
+            color: var(--inc)
+        }
+
+        .sum-val.exp {
+            color: var(--exp)
+        }
+
+        .sum-val.net-pos {
+            color: var(--inc)
+        }
+
+        .sum-val.net-neg {
+            color: var(--exp)
+        }
+
+        /* CHART CARD */
+        .chart-card {
+            background: var(--surface);
+            border-radius: var(--r);
+            padding: 16px;
+            border: 1px solid var(--border)
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+            background: var(--surface2);
+            border-radius: var(--r-sm);
+            padding: 4px
+        }
+
+        .chart-tab {
+            flex: 1;
+            padding: 7px 6px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text2);
+            font-family: 'Kanit', sans-serif;
+            font-size: .78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 10s
+        }
+
+        .chart-tab.active {
+            background: var(--surface3);
+            color: var(--text);
+            font-weight: 500
+        }
+
+        /* USER SPLIT */
+        .split-card {
+            background: var(--surface);
+            border-radius: var(--r);
+            padding: 16px;
+            border: 1px solid var(--border)
+        }
+
+        .split-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .split-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0
+        }
+
+        .split-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+            flex-shrink: 0
+        }
+
+        .split-av0 {
+            background: rgba(108, 99, 255, .15);
+            color: #a09bff
+        }
+
+        .split-av1 {
+            background: rgba(255, 101, 132, .15);
+            color: #ff8fab
+        }
+
+        .split-info {
+            flex: 1
+        }
+
+        .split-name {
+            font-size: .9rem;
+            font-weight: 600
+        }
+
+        .split-sub {
+            font-size: .68rem;
+            color: var(--text2);
+            margin-top: 2px
+        }
+
+        .split-right {
+            text-align: right
+        }
+
+        .split-exp {
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--exp)
+        }
+
+        .split-inc {
+            font-size: .75rem;
+            color: var(--inc)
+        }
+
+        /* TOP SPENDING */
+        .top-card {
+            background: var(--surface);
+            border-radius: var(--r);
+            padding: 16px;
+            border: 1px solid var(--border)
+        }
+
+        .top-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .top-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0
+        }
+
+        .top-rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+            background: var(--surface2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .7rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            color: var(--text2)
+        }
+
+        .top-rank.r1 {
+            background: rgba(255, 179, 71, .18);
+            color: var(--warn)
+        }
+
+        .top-rank.r2 {
+            background: rgba(144, 144, 176, .12);
+            color: var(--text2)
+        }
+
+        .top-rank.r3 {
+            background: rgba(180, 120, 60, .12);
+            color: #cd853f
+        }
+
+        .top-cat {
+            flex: 1;
+            font-size: .85rem;
+            font-weight: 600
+        }
+
+        .top-bar-track {
+            flex: 2;
+            background: var(--surface3);
+            border-radius: 50px;
+            height: 6px;
+            overflow: hidden
+        }
+
+        .top-bar-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--exp), rgba(255, 101, 132, .5));
+            transition: width 10s ease
+        }
+
+        .top-val {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--exp);
+            min-width: 70px;
+            text-align: right
+        }
+
+        /* DAILY LIST */
+        .day-group {
+            margin-bottom: 14px
+        }
+
+        .day-label {
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--text2);
+            margin-bottom: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .day-net {
+            font-size: .72rem;
+            font-weight: 600
+        }
+
+        .tx-item {
+            background: var(--surface);
+            border-radius: var(--r-sm);
+            padding: 11px 13px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            border: 1px solid var(--border);
+            margin-bottom: 6px
+        }
+
+        .tx-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .85rem;
+            flex-shrink: 0
+        }
+
+        .tx-icon.i {
+            background: rgba(0, 210, 160, .14);
+            color: var(--inc)
+        }
+
+        .tx-icon.e {
+            background: rgba(255, 101, 132, .14);
+            color: var(--exp)
+        }
+
+        .tx-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .tx-desc {
+            font-size: .88rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .tx-meta {
+            font-size: .65rem;
+            color: var(--text2);
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 5px
+        }
+
+        .tx-cat-badge {
+            background: var(--surface2);
+            border-radius: 50px;
+            padding: 1px 7px;
+            font-size: .62rem
+        }
+
+        .tx-user-badge {
+            border-radius: 50px;
+            padding: 1px 7px;
+            font-size: .62rem;
+            font-weight: 600
+        }
+
+        .tx-user-badge.u0 {
+            background: rgba(108, 99, 255, .15);
+            color: #a09bff
+        }
+
+        .tx-user-badge.u1 {
+            background: rgba(255, 101, 132, .15);
+            color: #ff8fab
+        }
+
+        .tx-amt {
+            font-size: .92rem;
+            font-weight: 700;
+            flex-shrink: 0
+        }
+
+        .tx-amt.i {
+            color: var(--inc)
+        }
+
+        .tx-amt.e {
+            color: var(--exp)
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text2)
+        }
+
+        .empty-state i {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+            opacity: .22
+        }
+
+        .footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 1.0rem;
+            color: var(--text2);
+            opacity: .4;
+            line-height: 1.9;
+            padding-bottom: env(safe-area-inset-bottom, 16px)
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> หน้าหลัก</a>
+            <div class="logo"><i class="fas fa-chart-bar" style="font-size:1rem;margin-right:6px"></i>รายงาน</div>
+            <div class="sync-pill loading" id="syncBadge"><span class="sync-dot"></span><span
+                    id="syncText">กำลังเชื่อมต่อระบบ</span></div>
+        </div>
+        <!-- MONTH TABS -->
+        <div class="month-row" id="monthRow"></div>
+    </div>
+
+    <div class="main">
+
+        <!-- SUMMARY CARDS -->
+        <div class="sum-grid">
+            <div class="sum-card">
+                <div class="sum-icon"><i class="bi bi-cash-coin"></i></div>
+                <div class="sum-label">รายรับ</div>
+                <div class="sum-val inc" id="sInc">฿ 0</div>
+            </div>
+            <div class="sum-card">
+                <div class="sum-icon"><i class="bi bi-receipt"></i></div>
+                <div class="sum-label">รายจ่าย</div>
+                <div class="sum-val exp" id="sExp">฿ 0</div>
+            </div>
+            <div class="sum-card">
+                <div class="sum-icon"><i class="bi bi-wallet"></i></div>
+                <div class="sum-label">คงเหลือ</div>
+                <div class="sum-val" id="sNet">฿ 0</div>
+            </div>
+        </div>
+
+        <!-- CHARTS -->
+        <div class="section">
+            <div class="section-title"><i class="fas fa-chart-line"></i> กราฟวิเคราะห์</div>
+            <div class="chart-card">
+                <div class="chart-tabs">
+                    <button class="chart-tab active" id="tab0" onclick="switchTab(0)">รายรับ vs รายจ่าย</button>
+                    <button class="chart-tab" id="tab1" onclick="switchTab(1)">แนวโน้มรายเดือน</button>
+                    <button class="chart-tab" id="tab2" onclick="switchTab(2)">หมวดหมู่</button>
+                </div>
+                <div style="position:relative;max-height:600px">
+                    <canvas id="chart0"></canvas>
+                    <canvas id="chart1" style="display:none"></canvas>
+                    <canvas id="chart2" style="display:none"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOP SPENDING BY CATEGORY -->
+        <div class="section">
+            <div class="section-title"><i class="fas fa-trophy"></i> รายจ่ายตามหมวดหมู่</div>
+            <div class="top-card" id="topCats">
+                <div class="empty-state"><i class="fas fa-chart-pie"></i>
+                    <p>ไม่มีข้อมูล</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- USER SPLIT -->
+        <div class="section">
+            <div class="section-title"><i class="fas fa-people-arrows"></i> สรุปตามคน</div>
+            <div class="split-card" id="splitCard"></div>
+        </div>
+
+        <!-- DAILY BREAKDOWN -->
+        <div class="section">
+            <div class="section-title"><i class="fas fa-calendar-days"></i> รายการตามวัน</div>
+            <div id="dailyList">
+                <div class="empty-state"><i class="fas fa-receipt"></i>
+                    <p>ไม่มีข้อมูล</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <i class="fas fa-copyright" style="color: var(--accent)"></i> เป๋าพลัส | Walletplus<br />
+            <i class="fas fa-tag" style="color: var(--warn)"></i> เวอร์ชัน 4.1.0 <br>
+            <i class="fas fa-heart" style="color: var(--exp)"></i> Dev By Sumett
+            Ampornsak
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBgYFySgzCuM9XTS0WNCXM3GeD0mZWMkiU",
+            authDomain: "walletplus-da60d.firebaseapp.com",
+            projectId: "walletplus-da60d",
+            storageBucket: "walletplus-da60d.firebasestorage.app",
+            messagingSenderId: "781994489660",
+            appId: "1:781994489660:web:ec143605cef5f728959039",
+            databaseURL: "https://walletplus-da60d-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        let allTx = {};
+        let settings = { name0: 'น้องปิ๊งๆ', name1: 'พี่ปลาย' };
+        let selectedMonth = '';
+        let curTab = 0;
+        let charts = [null, null, null];
+
+        const MONTH_COLORS = ['rgba(108,99,255,.8)', 'rgba(0,210,160,.8)', 'rgba(255,101,132,.8)', 'rgba(255,179,71,.8)', 'rgba(100,180,255,.8)', 'rgba(255,130,255,.8)'];
+
+        // Build month tabs from data
+        function buildMonthTabs(txList) {
+            const months = [...new Set(txList.map(t => t.monthKey).filter(Boolean))].sort().reverse();
+            const now = new Date();
+            // Always include last 6 months
+            for (let i = 0; i < 6; i++) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const mk = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                if (!months.includes(mk)) months.push(mk);
+            }
+            months.sort().reverse();
+            if (!selectedMonth) selectedMonth = months[0] || '';
+
+            const row = document.getElementById('monthRow');
+            row.innerHTML = months.map(mk => {
+                const [y, m] = mk.split('-');
+                const label = new Date(+y, +m - 1, 1).toLocaleDateString('th-TH', { month: 'short', year: 'numeric' });
+                return `<button class="month-chip ${mk === selectedMonth ? 'active' : ''}" onclick="selectMonth('${mk}')">${label}</button>`;
+            }).join('');
+        }
+
+        window.selectMonth = (mk) => {
+            selectedMonth = mk;
+            document.querySelectorAll('.month-chip').forEach(c => {
+                c.classList.toggle('active', c.textContent.trim() === (() => {
+                    const [y, m] = mk.split('-');
+                    return new Date(+y, +m - 1, 1).toLocaleDateString('th-TH', { month: 'short', year: 'numeric' });
+                })());
+            });
+            // Simpler: rebuild
+            buildMonthTabs(Object.values(allTx));
+            renderAll();
+        };
+
+        window.switchTab = (i) => {
+            curTab = i;
+            [0, 1, 2].forEach(j => {
+                document.getElementById('tab' + j).className = 'chart-tab' + (j === i ? ' active' : '');
+                document.getElementById('chart' + j).style.display = j === i ? 'block' : 'none';
+            });
+            drawCharts(getFiltered());
+        };
+
+        // ===== FIREBASE =====
+        onValue(ref(db, 'transactions'), (snap) => {
+            allTx = snap.val() || {};
+            document.getElementById('syncBadge').className = 'sync-pill ok';
+            document.getElementById('syncText').textContent = 'เชื่อมต่อสำเร็จ';
+            const txList = Object.values(allTx);
+            buildMonthTabs(txList);
+            renderAll();
+        }, () => {
+            document.getElementById('syncBadge').className = 'sync-pill loading';
+            document.getElementById('syncText').textContent = 'ขาดการเชื่อมต่อ';
+        });
+
+        onValue(ref(db, 'settings'), (snap) => { if (snap.val()) { settings = snap.val(); renderAll(); } });
+
+        function getFiltered() {
+            return Object.entries(allTx)
+                .map(([key, val]) => ({ key, ...val }))
+                .filter(t => !selectedMonth || t.monthKey === selectedMonth)
+                .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        }
+
+        function renderAll() {
+            const filtered = getFiltered();
+            let sumInc = 0, sumExp = 0;
+            filtered.forEach(t => { const a = Number(t.amount); if (t.type === 'income') sumInc += a; else sumExp += a; });
+            const net = sumInc - sumExp;
+            document.getElementById('sInc').textContent = '฿ ' + fmt(sumInc);
+            document.getElementById('sExp').textContent = '฿ ' + fmt(sumExp);
+            const sn = document.getElementById('sNet');
+            sn.textContent = '฿ ' + fmt(net);
+            sn.className = 'sum-val' + (net > 0 ? ' net-pos' : net < 0 ? ' net-neg' : '');
+
+            drawCharts(filtered);
+            renderTopCats(filtered);
+            renderSplit(filtered);
+            renderDaily(filtered);
+        }
+
+        function drawCharts(filtered) {
+            if (curTab === 0) drawDonut(filtered);
+            else if (curTab === 1) drawTrend();
+            else drawCatBar(filtered);
+        }
+
+        function drawDonut(filtered) {
+            let inc = 0, exp = 0;
+            filtered.forEach(t => { const a = Number(t.amount); if (t.type === 'income') inc += a; else exp += a; });
+            const ctx = document.getElementById('chart0').getContext('2d');
+            if (charts[0]) charts[0].destroy();
+            charts[0] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['รายรับ', 'รายจ่าย'],
+                    datasets: [{ data: [inc, exp], backgroundColor: ['rgba(0,210,160,.82)', 'rgba(255,101,132,.82)'], borderRadius: 10, borderWidth: 0, hoverOffset: 8 }]
+                },
+                options: {
+                    responsive: true, cutout: '65%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#9090B0', font: { family: 'Kanit', size: 11 }, padding: 14, usePointStyle: true, pointStyleWidth: 8 } },
+                        tooltip: { callbacks: { label: (c) => ' ฿' + fmt(c.raw) } }
+                    }, animation: { duration: 500 }
+                }
+            });
+        }
+
+        function drawTrend() {
+            const now = new Date();
+            const months = []; const labels = [];
+            for (let i = 5; i >= 0; i--) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const mk = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                months.push(mk);
+                labels.push(d.toLocaleDateString('th-TH', { month: 'short' }));
+            }
+            const incData = [], expData = [];
+            months.forEach(mk => {
+                let inc = 0, exp = 0;
+                Object.values(allTx).filter(t => t.monthKey === mk).forEach(t => { const a = Number(t.amount); if (t.type === 'income') inc += a; else exp += a; });
+                incData.push(inc); expData.push(exp);
+            });
+            const ctx = document.getElementById('chart1').getContext('2d');
+            if (charts[1]) charts[1].destroy();
+            charts[1] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [
+                        { label: 'รายรับ', data: incData, backgroundColor: 'rgba(0,210,160,.7)', borderRadius: 8, borderWidth: 0 },
+                        { label: 'รายจ่าย', data: expData, backgroundColor: 'rgba(255,101,132,.7)', borderRadius: 8, borderWidth: 0 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: { ticks: { color: '#9090B0', font: { family: 'Kanit', size: 11 } }, grid: { color: 'rgba(255,255,255,.04)' } },
+                        y: { ticks: { color: '#9090B0', font: { family: 'Kanit', size: 10 }, callback: v => '฿' + fmt(v) }, grid: { color: 'rgba(255,255,255,.04)' } }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#9090B0', font: { family: 'Kanit', size: 11 }, padding: 14, usePointStyle: true } },
+                        tooltip: { callbacks: { label: (c) => ' ฿' + fmt(c.raw) } }
+                    }, animation: { duration: 500 }
+                }
+            });
+        }
+
+        function drawCatBar(filtered) {
+            const catMap = {};
+            filtered.filter(t => t.type === 'expense').forEach(t => {
+                const c = t.category || 'อื่นๆ';
+                catMap[c] = (catMap[c] || 0) + Number(t.amount);
+            });
+            const sorted = Object.entries(catMap).sort((a, b) => b[1] - a[1]).slice(0, 7);
+            const ctx = document.getElementById('chart2').getContext('2d');
+            if (charts[2]) charts[2].destroy();
+            charts[2] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(([k]) => k),
+                    datasets: [{ data: sorted.map(([, v]) => v), backgroundColor: MONTH_COLORS, borderRadius: 8, borderWidth: 0 }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    scales: {
+                        x: { ticks: { color: '#9090B0', font: { family: 'Kanit', size: 10 }, callback: v => '฿' + fmt(v) }, grid: { color: 'rgba(255,255,255,.04)' } },
+                        y: { ticks: { color: '#E8E8F0', font: { family: 'Kanit', size: 11 } }, grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ' ฿' + fmt(c.raw) } } },
+                    animation: { duration: 500 }
+                }
+            });
+        }
+
+        function renderTopCats(filtered) {
+            const catMap = {};
+            filtered.filter(t => t.type === 'expense').forEach(t => {
+                const c = t.category || 'อื่นๆ'; catMap[c] = (catMap[c] || 0) + Number(t.amount);
+            });
+            const sorted = Object.entries(catMap).sort((a, b) => b[1] - a[1]);
+            const max = sorted[0] ? sorted[0][1] : 1;
+            const container = document.getElementById('topCats');
+            if (!sorted.length) { container.innerHTML = '<div class="empty-state"><i class="fas fa-chart-pie"></i><p>ไม่มีข้อมูล</p></div>'; return; }
+            container.innerHTML = sorted.slice(0, 6).map(([cat, val], i) => `
+    <div class="top-item">
+      <div class="top-rank ${i === 0 ? 'r1' : i === 1 ? 'r2' : i === 2 ? 'r3' : ''}">${i + 1}</div>
+      <div class="top-cat">${cat}</div>
+      <div class="top-bar-track"><div class="top-bar-fill" style="width:${(val / max * 100).toFixed(1)}%"></div></div>
+      <div class="top-val">฿${fmt(val)}</div>
+    </div>`).join('');
+        }
+
+        function renderSplit(filtered) {
+            let inc0 = 0, exp0 = 0, inc1 = 0, exp1 = 0;
+            filtered.forEach(t => {
+                const a = Number(t.amount);
+                if (t.user === 0) { if (t.type === 'income') inc0 += a; else exp0 += a; }
+                else { if (t.type === 'income') inc1 += a; else exp1 += a; }
+            });
+            document.getElementById('splitCard').innerHTML = `
+    <div class="split-row">
+      <div class="split-avatar split-av0"><i class="fas fa-heart"></i></div>
+      <div class="split-info">
+        <div class="split-name">${esc(settings.name0)}</div>
+        <div class="split-sub">${filtered.filter(t => t.user === 0).length} รายการ</div>
+      </div>
+      <div class="split-right">
+        <div class="split-exp">-฿${fmt(exp0)}</div>
+        <div class="split-inc">+฿${fmt(inc0)}</div>
+      </div>
+    </div>
+    <div class="split-row">
+      <div class="split-avatar split-av1"><i class="fas fa-heart"></i></div>
+      <div class="split-info">
+        <div class="split-name">${esc(settings.name1)}</div>
+        <div class="split-sub">${filtered.filter(t => t.user === 1).length} รายการ</div>
+      </div>
+      <div class="split-right">
+        <div class="split-exp">-฿${fmt(exp1)}</div>
+        <div class="split-inc">+฿${fmt(inc1)}</div>
+      </div>
+    </div>
+    <div class="split-row" style="border-bottom:none;padding:12px 0 0">
+      <div style="flex:1;font-size:.75rem;color:var(--text2)">ใครจ่ายมากกว่า?</div>
+      <div style="font-size:.88rem;font-weight:700;color:${exp0 > exp1 ? '#a09bff' : '#ff8fab'}">
+        ${exp0 > exp1 ? esc(settings.name0) : exp1 > exp0 ? esc(settings.name1) : 'เท่ากัน!'} ${exp0 !== exp1 ? '+฿' + fmt(Math.abs(exp0 - exp1)) : ''}
+      </div>
+    </div>`;
+        }
+
+        function renderDaily(filtered) {
+            const dayMap = {};
+            filtered.forEach(t => {
+                const d = t.date || 'ไม่ระบุ';
+                if (!dayMap[d]) dayMap[d] = [];
+                dayMap[d].push(t);
+            });
+            const container = document.getElementById('dailyList');
+            const days = Object.keys(dayMap).sort((a, b) => {
+                const ta = dayMap[a][0].timestamp || 0, tb = dayMap[b][0].timestamp || 0;
+                return tb - ta;
+            });
+            if (!days.length) { container.innerHTML = '<div class="empty-state"><i class="fas fa-receipt"></i><p>ไม่มีข้อมูล</p></div>'; return; }
+            container.innerHTML = days.map(day => {
+                const items = dayMap[day];
+                let dInc = 0, dExp = 0;
+                items.forEach(t => { const a = Number(t.amount); if (t.type === 'income') dInc += a; else dExp += a; });
+                const net = dInc - dExp;
+                return `<div class="day-group">
+      <div class="day-label">
+        <span>${day}</span>
+        <span class="day-net" style="color:${net >= 0 ? 'var(--inc)' : 'var(--exp)'}">${net >= 0 ? '+' : '-'}฿${fmt(Math.abs(net))}</span>
+      </div>
+      ${items.map(t => {
+                    const isI = t.type === 'income';
+                    const uName = t.user === 0 ? settings.name0 : settings.name1;
+                    const uC = t.user === 0 ? 'u0' : 'u1';
+                    return `<div class="tx-item">
+          <div class="tx-icon ${isI ? 'i' : 'e'}"><i class="fas ${isI ? 'fa-arrow-down' : 'fa-arrow-up'}"></i></div>
+          <div class="tx-info">
+            <div class="tx-desc">${esc(t.desc)}</div>
+            <div class="tx-meta">
+              ${t.category ? `<span class="tx-cat-badge">${t.category}</span>` : ''}
+              <span class="tx-user-badge ${uC}">${uName}</span>
+            </div>
+          </div>
+          <div class="tx-amt ${isI ? 'i' : 'e'}">${isI ? '+' : '-'}฿${fmt(Number(t.amount))}</div>
+        </div>`;
+                }).join('')}
+    </div>`;
+            }).join('');
+        }
+
+        function fmt(n) { return Number(n).toLocaleString('th-TH', { maximumFractionDigits: 2 }); }
+        function esc(s) { return String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])); }
+    </script>
+</body>
+
+</html>

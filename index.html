@@ -893,6 +893,147 @@
             border-radius: 10px !important;
         }
     </style>
+    <style>
+        #pin-overlay {
+            position: fixed; inset: 0; z-index: 99999;
+            background: #0f0f1a;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Kanit', sans-serif;
+        }
+        #pin-overlay.hidden { display: none; }
+        .pin-box {
+            background: #1c1c2e;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 24px;
+            padding: 36px 28px 28px;
+            width: 320px;
+            max-width: 90vw;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        .pin-logo {
+            font-size: 1.5rem; font-weight: 800;
+            background: linear-gradient(135deg, #6c63ff, #ff6584);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; margin-bottom: 6px;
+        }
+        .pin-title {
+            font-size: .95rem; font-weight: 600; color: #e8e8f0;
+            margin-bottom: 4px;
+        }
+        .pin-sub {
+            font-size: .75rem; color: #9090b0; margin-bottom: 22px;
+        }
+        .pin-dots {
+            display: flex; justify-content: center; gap: 10px;
+            margin-bottom: 24px;
+        }
+        .pin-dot {
+            width: 14px; height: 14px; border-radius: 50%;
+            border: 2px solid #3a3a5c;
+            background: transparent;
+            transition: all .2s;
+        }
+        .pin-dot.filled { background: #6c63ff; border-color: #6c63ff; }
+        .pin-dot.error { background: #ff6584; border-color: #ff6584; animation: shake .3s; }
+        @keyframes shake {
+            0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)}
+        }
+        .pin-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 10px; margin-bottom: 0;
+        }
+        .pin-key {
+            background: #252540; border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px; padding: 16px 0;
+            font-size: 1.25rem; font-weight: 700; color: #e8e8f0;
+            cursor: pointer; user-select: none;
+            transition: background .15s, transform .1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .pin-key:active { background: #6c63ff; transform: scale(.94); }
+        .pin-key.del { font-size: .95rem; color: #9090b0; }
+        .pin-key.empty { background: transparent; border-color: transparent; cursor: default; }
+        .pin-error-msg {
+            color: #ff6584; font-size: .78rem; margin-top: 14px;
+            min-height: 20px; transition: opacity .2s;
+        }
+    </style>
+    <div id="pin-overlay">
+        <div class="pin-box">
+            <div class="pin-logo">เป๋าพลัส</div>
+            <div class="pin-title">ใส่รหัส PIN</div>
+            <div class="pin-sub">กรอก PIN 6 หลักเพื่อเข้าใช้งาน</div>
+            <div class="pin-dots" id="pinDots">
+                <div class="pin-dot" id="pd0"></div>
+                <div class="pin-dot" id="pd1"></div>
+                <div class="pin-dot" id="pd2"></div>
+                <div class="pin-dot" id="pd3"></div>
+                <div class="pin-dot" id="pd4"></div>
+                <div class="pin-dot" id="pd5"></div>
+            </div>
+            <div class="pin-grid">
+                <button class="pin-key" onclick="pinKey('1')">1</button>
+                <button class="pin-key" onclick="pinKey('2')">2</button>
+                <button class="pin-key" onclick="pinKey('3')">3</button>
+                <button class="pin-key" onclick="pinKey('4')">4</button>
+                <button class="pin-key" onclick="pinKey('5')">5</button>
+                <button class="pin-key" onclick="pinKey('6')">6</button>
+                <button class="pin-key" onclick="pinKey('7')">7</button>
+                <button class="pin-key" onclick="pinKey('8')">8</button>
+                <button class="pin-key" onclick="pinKey('9')">9</button>
+                <button class="pin-key empty" disabled></button>
+                <button class="pin-key" onclick="pinKey('0')">0</button>
+                <button class="pin-key del" onclick="pinDel()">&#9003;</button>
+            </div>
+            <div class="pin-error-msg" id="pinErr"></div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var VALID = ['162444', '220339'];
+            var entered = '';
+            if (sessionStorage.getItem('pin_ok') === '1') {
+                document.getElementById('pin-overlay').classList.add('hidden');
+                return;
+            }
+            function updateDots(err) {
+                for (var i = 0; i < 6; i++) {
+                    var d = document.getElementById('pd' + i);
+                    d.className = 'pin-dot';
+                    if (err) d.classList.add('error');
+                    else if (i < entered.length) d.classList.add('filled');
+                }
+            }
+            window.pinKey = function (k) {
+                if (entered.length >= 6) return;
+                entered += k;
+                updateDots(false);
+                document.getElementById('pinErr').textContent = '';
+                if (entered.length === 6) {
+                    if (VALID.indexOf(entered) !== -1) {
+                        sessionStorage.setItem('pin_ok', '1');
+                        document.getElementById('pin-overlay').classList.add('hidden');
+                    } else {
+                        updateDots(true);
+                        document.getElementById('pinErr').textContent = 'รหัส PIN ไม่ถูกต้อง กรุณาลองใหม่';
+                        setTimeout(function () { entered = ''; updateDots(false); document.getElementById('pinErr').textContent = ''; }, 900);
+                    }
+                }
+            };
+            window.pinDel = function () {
+                if (!entered.length) return;
+                entered = entered.slice(0, -1);
+                updateDots(false);
+                document.getElementById('pinErr').textContent = '';
+            };
+            document.addEventListener('keydown', function (e) {
+                if (document.getElementById('pin-overlay').classList.contains('hidden')) return;
+                if (e.key >= '0' && e.key <= '9') pinKey(e.key);
+                else if (e.key === 'Backspace') pinDel();
+            });
+        })();
+    </script>
 </head>
 
 <body>
@@ -1055,7 +1196,7 @@
 
         <div class="footer">
             <i class="bi bi-c-circle"></i> เป๋าพลัส | Walletplus<br />
-            <i class="bi bi-tag-fill" style="color: var(--warn)"></i> เวอร์ชัน 4.1.0 <br>
+            <i class="bi bi-tag-fill" style="color: var(--warn)"></i> เวอร์ชัน 4.2.0 <br>
             <i class="bi bi-heart-fill" style="color: var(--exp)"></i> Dev By Sumett Ampornsak
         </div>
     </div>

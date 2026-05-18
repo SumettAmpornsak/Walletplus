@@ -764,6 +764,40 @@
             background: rgba(255, 101, 132, 0.12);
         }
 
+        /* SHOW MORE TX */
+        .tx-show-more-btn {
+            width: 100%;
+            padding: 11px;
+            border-radius: var(--r-sm);
+            border: 1.5px dashed var(--border);
+            background: transparent;
+            color: var(--text2);
+            font-family: "Kanit", sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            transition: all 0.2s;
+            margin-top: 4px;
+        }
+
+        .tx-show-more-btn:active {
+            background: var(--surface2);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .tx-show-more-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .tx-show-more-btn.expanded i.toggle-chevron {
+            transform: rotate(180deg);
+        }
+
         /* EMPTY */
         .empty-state {
             text-align: center;
@@ -891,6 +925,511 @@
             font-family: "Kanit", sans-serif !important;
             color: var(--text2) !important;
             border-radius: 10px !important;
+        }
+
+        /* ====== SHOPEE INSTALLMENT SYSTEM ====== */
+        .shopee-section {
+            margin: 0 16px 16px;
+        }
+
+        .shopee-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .shopee-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .shopee-collapse-all-btn {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text2);
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .shopee-collapse-all-btn:active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .shopee-card-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text2);
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .shopee-card-toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .shopee-card-toggle-btn.collapsed i {
+            transform: rotate(-90deg);
+        }
+
+        .shopee-card-body {
+            overflow: hidden;
+            max-height: 1000px;
+            transition: max-height 0.35s ease, opacity 0.25s ease;
+            opacity: 1;
+        }
+
+        .shopee-card-body.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .shopee-card-collapsed-preview {
+            display: none;
+            padding: 6px 16px 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .shopee-card-collapsed-preview.show {
+            display: flex;
+        }
+
+        .shopee-card-collapsed-preview .cp-chip {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 2px 9px;
+            border-radius: 50px;
+            background: rgba(238,77,45,0.12);
+            color: #ee4d2d;
+        }
+
+        .shopee-card-collapsed-preview .cp-chip.green {
+            background: rgba(0,210,160,0.12);
+            color: var(--inc);
+        }
+
+        .shopee-card-collapsed-preview .cp-chip.warn {
+            background: rgba(255,179,71,0.12);
+            color: var(--warn);
+        }
+
+        .shopee-add-btn {
+            background: linear-gradient(135deg, #ee4d2d, #ff6633);
+            border: none;
+            color: #fff;
+            font-family: "Kanit", sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 7px 14px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            box-shadow: 0 3px 12px rgba(238, 77, 45, 0.35);
+        }
+
+        .shopee-add-btn:active {
+            transform: scale(0.95);
+        }
+
+        .shopee-summary-bar {
+            background: linear-gradient(135deg, rgba(238, 77, 45, 0.12), rgba(255, 102, 51, 0.07));
+            border: 1px solid rgba(238, 77, 45, 0.22);
+            border-radius: var(--r);
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .shopee-sum-item {
+            text-align: center;
+        }
+
+        .shopee-sum-label {
+            font-size: 1rem;
+            color: var(--text2);
+            margin-bottom: 2px;
+        }
+
+        .shopee-sum-val {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ee4d2d;
+        }
+
+        .shopee-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .shopee-card.fully-paid {
+            opacity: 0.6;
+            border-color: rgba(0, 210, 160, 0.2);
+        }
+
+        .shopee-card-header {
+            padding: 14px 16px 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .shopee-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #ee4d2d, #ff6633);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .shopee-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .shopee-card-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .shopee-card-meta {
+            font-size: 0.7rem;
+            color: var(--text2);
+            margin-top: 3px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .shopee-card-acts {
+            display: flex;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .shopee-act-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text2);
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .shopee-act-btn.del:active { color: var(--exp); border-color: var(--exp); }
+        .shopee-act-btn.edit:active { color: var(--accent); border-color: var(--accent); }
+
+        .shopee-progress-wrap {
+            padding: 0 16px 12px;
+        }
+
+        .shopee-progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.68rem;
+            color: var(--text2);
+            margin-bottom: 5px;
+        }
+
+        .shopee-progress-track {
+            height: 7px;
+            background: var(--surface3);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .shopee-progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, #ee4d2d, #ff6633);
+            transition: width 0.5s ease;
+        }
+
+        .shopee-progress-fill.done {
+            background: linear-gradient(90deg, #00d2a0, #00b889);
+        }
+
+        .shopee-stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            padding: 0 16px 10px;
+        }
+
+        .shopee-stat {
+            background: var(--surface2);
+            border-radius: 10px;
+            padding: 9px 10px;
+            text-align: center;
+        }
+
+        .shopee-stat-label {
+            font-size: 1rem;
+            color: var(--text2);
+            margin-bottom: 2px;
+        }
+
+        .shopee-stat-val {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .shopee-stat-val.red { color: #ee4d2d; }
+        .shopee-stat-val.green { color: var(--inc); }
+        .shopee-stat-val.warn { color: var(--warn); }
+
+        /* installment schedule grid */
+        .shopee-schedule {
+            margin: 0 16px 10px;
+            background: var(--surface2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .shopee-schedule-title {
+            padding: 10px 14px 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text2);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.15s;
+        }
+
+        .shopee-schedule-title:active {
+            background: rgba(255,255,255,0.04);
+        }
+
+        .shopee-schedule-title .sched-toggle-icon {
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: var(--text2);
+            opacity: 0.6;
+            transition: transform 0.3s ease;
+        }
+
+        .shopee-schedule-title.collapsed .sched-toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .shopee-schedule-body {
+            overflow: hidden;
+            max-height: 2000px;
+            transition: max-height 0.35s ease, opacity 0.25s ease;
+            opacity: 1;
+        }
+
+        .shopee-schedule-body.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        /* preview row shown when collapsed */
+        .shopee-sched-preview {
+            padding: 6px 14px 8px;
+            font-size: 0.68rem;
+            color: var(--text2);
+            display: none;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .shopee-schedule-title.collapsed ~ .shopee-sched-preview {
+            display: flex;
+        }
+
+        .sched-preview-chip {
+            background: rgba(238,77,45,0.12);
+            color: #ee4d2d;
+            border-radius: 50px;
+            padding: 2px 9px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .sched-preview-chip.green {
+            background: rgba(0,210,160,0.12);
+            color: var(--inc);
+        }
+
+        .shopee-schedule-row {
+            display: flex;
+            align-items: center;
+            padding: 9px 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            gap: 10px;
+            transition: background 0.15s;
+        }
+
+        .shopee-schedule-row:last-child { border-bottom: none; }
+
+        .shopee-schedule-row.paid {
+            opacity: 0.45;
+        }
+
+        .shopee-schedule-row.current-month {
+            background: rgba(238, 77, 45, 0.08);
+        }
+
+        .shopee-install-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--text2);
+        }
+
+        .shopee-install-num.paid {
+            background: var(--inc);
+            border-color: var(--inc);
+            color: #071a12;
+        }
+
+        .shopee-install-num.current {
+            background: #ee4d2d;
+            border-color: #ee4d2d;
+            color: #fff;
+        }
+
+        .shopee-install-info {
+            flex: 1;
+        }
+
+        .shopee-install-date {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .shopee-install-month {
+            font-size: 0.65rem;
+            color: var(--text2);
+        }
+
+        .shopee-install-amt {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .shopee-install-amt.paid { color: var(--inc); }
+
+        .shopee-pay-toggle {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: var(--text2);
+            transition: all 0.15s;
+            flex-shrink: 0;
+        }
+
+        .shopee-pay-toggle.paid {
+            background: rgba(0, 210, 160, 0.14);
+            border-color: var(--inc);
+            color: var(--inc);
+        }
+
+        .shopee-pay-toggle:active {
+            transform: scale(0.88);
+        }
+
+        .shopee-empty {
+            text-align: center;
+            padding: 28px 16px;
+            color: var(--text2);
+        }
+
+        .shopee-empty i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            opacity: 0.2;
+        }
+
+        .shopee-empty p {
+            font-size: 0.82rem;
+        }
+
+        .shopee-badge-paid {
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 50px;
+            background: rgba(0, 210, 160, 0.15);
+            color: var(--inc);
+        }
+
+        .shopee-badge-active {
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 50px;
+            background: rgba(238, 77, 45, 0.15);
+            color: #ee4d2d;
         }
     </style>
     <style>
@@ -1187,16 +1726,53 @@
                 </div>
             </div>
         </div>
-
+<!-- เก็บปุ่มล้างข้อมูลไว้ห้ามแก้ไขเด็ดขาด!! -->
         <div class="section">
-            <button class="clear-btn" onclick="clearAll()">
+             <button class="clear-btn" onclick="clearAll()">
                 <i class="bi bi-trash"></i> ล้างข้อมูลทั้งหมด
-            </button>
+            </button> 
+        </div>
+
+        <!-- ====== SHOPEE INSTALLMENT SECTION ====== -->
+        <div class="shopee-section" id="shopeeSection">
+            <div class="shopee-header-row">
+                <div class="shopee-title">
+                    <span style="font-size:2rem"><i class="bi bi-cart3"></i></span> หนี้ Shopee ผ่อนชำระ
+                </div>
+                <div style="display:flex;gap:7px;align-items:center">
+                    <button class="shopee-collapse-all-btn" id="shopeeCollapseAllBtn" onclick="shopeeToggleAllCards()" title="หุบ/ขยายทั้งหมด">
+                        <i class="bi bi-arrows-collapse" id="shopeeCollapseAllIcon"></i>
+                    </button>
+                    <button class="shopee-add-btn" onclick="shopeeAddLoan()">
+                        <i class="bi bi-plus-lg"></i> เพิ่มรายการกู้
+                    </button>
+                </div>
+            </div>
+            <div class="shopee-summary-bar" id="shopeeSummaryBar">
+                <div class="shopee-sum-item">
+                    <div class="shopee-sum-label"><i class="bi bi-receipt"></i><br>รายการทั้งหมด</div>
+                    <div class="shopee-sum-val" id="shopeeCountVal">0</div>
+                </div>
+                <div class="shopee-sum-item">
+                    <div class="shopee-sum-label"><i class="bi bi-cash"></i><br>ยอดค้างชำระรวม</div>
+                    <div class="shopee-sum-val" id="shopeeRemainTotal">฿ 0</div>
+                </div>
+                <div class="shopee-sum-item">
+                    <div class="shopee-sum-label"><i class="bi bi-calendar"></i><br>งวดนี้ต้องจ่าย</div>
+                    <div class="shopee-sum-val" id="shopeeThisMonthTotal">฿ 0</div>
+                </div>
+            </div>
+            <div id="shopeeList">
+                <div class="shopee-empty" id="shopeeEmpty">
+                    <i class="bi bi-bag-x"></i>
+                    <p>ยังไม่มีรายการหนี้ผ่อนชำระ<br/><span style="opacity:0.6">กดปุ่มเพิ่มรายการกู้เพื่อเริ่มต้น</span></p>
+                </div>
+            </div>
         </div>
 
         <div class="footer">
             <i class="bi bi-c-circle"></i> เป๋าพลัส | Walletplus<br />
-            <i class="bi bi-tag-fill" style="color: var(--warn)"></i> เวอร์ชัน 4.2.0 <br>
+            <i class="bi bi-tag-fill" style="color: var(--warn)"></i> เวอร์ชัน 5.0.0 <br>
             <i class="bi bi-heart-fill" style="color: var(--exp)"></i> Dev By Sumett Ampornsak
         </div>
     </div>
@@ -1220,6 +1796,7 @@
         const txRef = ref(db, "transactions");
         const budgetRef = ref(db, "budgets");
         const settingsRef = ref(db, "settings");
+        const shopeeRef = ref(db, "shopeeLoans");
 
         let allTx = {};
         let budgets = {};
@@ -1231,6 +1808,7 @@
         let filterCat = "";
         let filterUser = "";
         let filterOpen = false;
+        let shopeeLoans = {};
 
         const CATS_INC = [" เงินเดือน", "รายได้เสริม", "รับของขวัญ", "ลงทุน", "ค่าเช่า", "อื่นๆ"];
         const CATS_EXP = ["อาหาร", "เดินทาง", "ค่าน้ำมัน", "ช็อปปิ้ง", "ค่าเช่า", "บันเทิง", "สุขภาพ", "การศึกษา", "เสื้อผ้า", "คู่รัก", "อื่นๆ"];
@@ -1362,11 +1940,80 @@
             if (v) { await update(ref(db, `transactions/${key}`), v); toast("success", "อัปเดตแล้ว ✓"); }
         };
 
+        // window.clearAll = async () => {
+        //     if (!Object.keys(allTx).length) return toast("info", "ไม่มีข้อมูลให้ล้าง");
+        //     const r = await Swal.fire({ title: "ล้างข้อมูลทั้งหมด?", text: `จะลบ ${Object.keys(allTx).length} รายการ — ไม่สามารถกู้คืนได้!`, icon: "error", showCancelButton: true, confirmButtonText: "ล้างเลย!", cancelButtonText: "ยกเลิก", confirmButtonColor: "#FF6584" });
+        //     if (r.isConfirmed) { await set(txRef, null); toast("success", "ล้างข้อมูลเรียบร้อย"); }
+        // };
+
+
         window.clearAll = async () => {
-            if (!Object.keys(allTx).length) return toast("info", "ไม่มีข้อมูลให้ล้าง");
-            const r = await Swal.fire({ title: "ล้างข้อมูลทั้งหมด?", text: `จะลบ ${Object.keys(allTx).length} รายการ — ไม่สามารถกู้คืนได้!`, icon: "error", showCancelButton: true, confirmButtonText: "ล้างเลย!", cancelButtonText: "ยกเลิก", confirmButtonColor: "#FF6584" });
-            if (r.isConfirmed) { await set(txRef, null); toast("success", "ล้างข้อมูลเรียบร้อย"); }
-        };
+    if (!Object.keys(allTx).length) {
+        return toast("info", "ไม่มีข้อมูลให้ล้าง");
+    }
+
+    // ยืนยันรอบแรก
+    const firstConfirm = await Swal.fire({
+        title: "ล้างข้อมูลทั้งหมด?",
+        text: `จะลบ ${Object.keys(allTx).length} รายการ — ไม่สามารถกู้คืนได้!`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "ต่อไป",
+        cancelButtonText: "ยกเลิก",
+        confirmButtonColor: "#ff6584"
+    });
+
+    if (!firstConfirm.isConfirmed) return;
+
+    // PIN ที่กำหนด
+    const CLEAR_PIN = "162444";
+
+    // ยืนยันรอบสองด้วย PIN
+    const { value: pin } = await Swal.fire({
+        title: "ยืนยันด้วย PIN",
+        html: `
+            <div style="font-size:.9rem;color:#9090b0;margin-bottom:12px">
+                กรุณากรอก PIN 6 หลักเพื่อยืนยันการล้างข้อมูล
+            </div>
+            <input 
+                id="clearPin"
+                class="swal2-input"
+                type="password"
+                maxlength="6"
+                inputmode="numeric"
+                placeholder=""
+                style="letter-spacing:8px;text-align:center;font-size:1.4rem"
+            >
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: "ล้างข้อมูล",
+        cancelButtonText: "ยกเลิก",
+        confirmButtonColor: "#ff0000",
+        preConfirm: () => {
+            const value = document.getElementById("clearPin").value.trim();
+
+            if (value.length !== 6) {
+                Swal.showValidationMessage("กรุณากรอก PIN 6 หลัก");
+                return false;
+            }
+
+            if (value !== CLEAR_PIN) {
+                Swal.showValidationMessage("PIN ไม่ถูกต้อง");
+                return false;
+            }
+
+            return value;
+        }
+    });
+
+    if (!pin) return;
+
+    // ลบจริง
+    await set(txRef, null);
+
+    toast("success", "ล้างข้อมูลเรียบร้อยแล้ว");
+};
 
         window.setBudget = async () => {
             const now = new Date();
@@ -1389,11 +2036,11 @@
             vals.innerHTML = `<span style="color:${pct >= 90 ? "var(--exp)" : pct >= 70 ? "var(--warn)" : "var(--inc)"}">${fmt(expenseThisMonth)}</span> / ${fmt(budget)} ฿`;
         }
 
-        window.onMonthChange = () => { selectedMonth = document.getElementById("monthSel").value; renderList(); };
+        window.onMonthChange = () => { selectedMonth = document.getElementById("monthSel").value; txExpanded = false; renderList(); };
         window.toggleFilter = () => { filterOpen = !filterOpen; document.getElementById("filterPanel").style.display = filterOpen ? "block" : "none"; document.getElementById("filterToggleBtn").className = "filter-btn" + (filterOpen ? " active" : ""); };
-        window.setTypeFilter = (el, val) => { filterType = val; document.querySelectorAll("#typeChips .chip").forEach(c => c.classList.remove("active")); el.classList.add("active"); renderList(); };
-        window.setCatFilter = (el, val) => { filterCat = filterCat === val ? "" : val; document.querySelectorAll("#catChips .chip").forEach(c => c.classList.remove("active")); if (filterCat) el.classList.add("active"); renderList(); };
-        window.setUserFilter = (el, val) => { filterUser = val; document.querySelectorAll("#userChips .chip").forEach(c => c.classList.remove("active")); el.classList.add("active"); renderList(); };
+        window.setTypeFilter = (el, val) => { filterType = val; txExpanded = false; document.querySelectorAll("#typeChips .chip").forEach(c => c.classList.remove("active")); el.classList.add("active"); renderList(); };
+        window.setCatFilter = (el, val) => { filterCat = filterCat === val ? "" : val; txExpanded = false; document.querySelectorAll("#catChips .chip").forEach(c => c.classList.remove("active")); if (filterCat) el.classList.add("active"); renderList(); };
+        window.setUserFilter = (el, val) => { filterUser = val; txExpanded = false; document.querySelectorAll("#userChips .chip").forEach(c => c.classList.remove("active")); el.classList.add("active"); renderList(); };
 
         function buildCatChips(txList) {
             const cats = [...new Set(txList.map(t => t.category).filter(Boolean))];
@@ -1431,6 +2078,9 @@
             }).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
         }
 
+        let txExpanded = false;
+        const TX_PREVIEW = 5;
+
         window.renderList = function () {
             const list = document.getElementById("txList");
             const emptyMsg = document.getElementById("emptyMsg");
@@ -1457,10 +2107,12 @@
             const sorted = getFiltered();
             buildCatChips(sorted);
             document.getElementById("recordCount").textContent = sorted.length + " รายการ";
-            list.querySelectorAll(".tx-item").forEach(el => el.remove());
+            list.querySelectorAll(".tx-item, .tx-show-more-btn").forEach(el => el.remove());
             if (!sorted.length) { emptyMsg.style.display = "block"; return; }
             emptyMsg.style.display = "none";
-            sorted.forEach(t => {
+
+            const showCount = txExpanded ? sorted.length : Math.min(TX_PREVIEW, sorted.length);
+            sorted.slice(0, showCount).forEach(t => {
                 const isI = t.type === "income";
                 const amt = Number(t.amount);
                 const uName = t.user === 0 ? settings.name0 : settings.name1;
@@ -1473,6 +2125,17 @@
                                 <div class="tx-acts"><button class="tx-btn edit" onclick="editTx('${t.key}')"><i class="bi bi-pencil-square"></i></button><button class="tx-btn del" onclick="deleteTx('${t.key}')"><i class="bi bi-trash"></i></button></div></div>`;
                 list.appendChild(el);
             });
+
+            if (sorted.length > TX_PREVIEW) {
+                const hidden = sorted.length - TX_PREVIEW;
+                const btn = document.createElement("button");
+                btn.className = "tx-show-more-btn" + (txExpanded ? " expanded" : "");
+                btn.innerHTML = txExpanded
+                    ? `<i class="bi bi-chevron-up toggle-chevron"></i> ย่อรายการ`
+                    : `<i class="bi bi-chevron-down toggle-chevron"></i> ดูเพิ่มอีก ${hidden} รายการ`;
+                btn.onclick = () => { txExpanded = !txExpanded; renderList(); };
+                list.appendChild(btn);
+            }
         };
 
         function fmt(n) { return Number(n).toLocaleString("th-TH", { maximumFractionDigits: 2 }); }
@@ -1488,6 +2151,328 @@
         document.getElementById("desc").addEventListener("keydown", (e) => { if (e.key === "Enter") document.getElementById("amount").focus(); });
         document.getElementById("amount").addEventListener("keydown", (e) => { if (e.key === "Enter") window.addTx(); });
         window.setType("income");
+
+        // ============ SHOPEE INSTALLMENT SYSTEM ============
+
+        const THAI_MONTHS = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+
+        function shopeeGetSchedule(loan) {
+            const schedule = [];
+            const startDate = new Date(loan.startDate);
+            const dayOfMonth = startDate.getDate();
+            for (let i = 0; i < loan.months; i++) {
+                const d = new Date(startDate.getFullYear(), startDate.getMonth() + i, dayOfMonth);
+                const mk = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+                schedule.push({
+                    installment: i + 1,
+                    date: `${dayOfMonth} ${THAI_MONTHS[d.getMonth()]} ${d.getFullYear() + 543}`,
+                    monthKey: mk,
+                    amount: loan.monthlyAmt,
+                    paid: (loan.paidMonths || {})[`inst_${i}`] === true
+                });
+            }
+            return schedule;
+        }
+
+        function shopeeRender() {
+            const list = document.getElementById("shopeeList");
+            const empty = document.getElementById("shopeeEmpty");
+            const loans = Object.entries(shopeeLoans).map(([k,v])=>({key:k,...v}));
+
+            // summary
+            let totalRemain = 0, thisMonthDue = 0;
+            const now = new Date();
+            const curMk = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+            loans.forEach(loan => {
+                const schedule = shopeeGetSchedule(loan);
+                const paidCount = schedule.filter(s=>s.paid).length;
+                const remainMonths = loan.months - paidCount;
+                totalRemain += remainMonths * loan.monthlyAmt;
+                const thisMonth = schedule.find(s => s.monthKey === curMk && !s.paid);
+                if (thisMonth) thisMonthDue += thisMonth.amount;
+            });
+
+            document.getElementById("shopeeCountVal").textContent = loans.length;
+            document.getElementById("shopeeRemainTotal").textContent = "฿ " + fmt(totalRemain);
+            document.getElementById("shopeeThisMonthTotal").textContent = "฿ " + fmt(thisMonthDue);
+
+            // Remove old cards
+            list.querySelectorAll(".shopee-card").forEach(el=>el.remove());
+
+            if (!loans.length) { empty.style.display = "block"; return; }
+            empty.style.display = "none";
+
+            loans.forEach(loan => {
+                const schedule = shopeeGetSchedule(loan);
+                const paidCount = schedule.filter(s=>s.paid).length;
+                const remainCount = loan.months - paidCount;
+                const remainAmt = remainCount * loan.monthlyAmt;
+                const pct = Math.round((paidCount / loan.months) * 100);
+                const fullyPaid = paidCount === loan.months;
+                const startDateObj = new Date(loan.startDate);
+                const startStr = `${startDateObj.getDate()} ${THAI_MONTHS[startDateObj.getMonth()]} ${startDateObj.getFullYear()+543}`;
+
+                const cardKey = `shopee_card_collapsed_${loan.key}`;
+                const isCardCollapsed = sessionStorage.getItem(cardKey) === '1';
+
+                const card = document.createElement("div");
+                card.className = "shopee-card" + (fullyPaid ? " fully-paid" : "");
+                card.innerHTML = `
+                  <div class="shopee-card-header">
+                    <div class="shopee-icon"><i class="bi bi-cash-coin"></i></div>
+                    <div class="shopee-card-info">
+                      <div class="shopee-card-name">${esc(loan.name)}</div>
+                      <div class="shopee-card-meta">
+                        <span>เริ่ม ${startStr}</span>
+                        <span>฿ ${fmt(loan.totalAmt)} / ${loan.months} เดือน</span>
+                        ${fullyPaid ? '<span class="shopee-badge-paid">ชำระครบแล้ว</span>' : `<span class="shopee-badge-active">กำลังผ่อน</span>`}
+                      </div>
+                    </div>
+                    <div class="shopee-card-acts">
+                      <button class="shopee-card-toggle-btn${isCardCollapsed?' collapsed':''}" onclick="shopeeToggleCard(this,'${cardKey}')" title="หุบ/ขยาย">
+                        <i class="bi bi-chevron-down"></i>
+                      </button>
+                      <button class="shopee-act-btn edit" onclick="shopeeEdit('${loan.key}')"><i class="bi bi-pencil"></i></button>
+                      <button class="shopee-act-btn del" onclick="shopeeDelete('${loan.key}')"><i class="bi bi-trash"></i></button>
+                    </div>
+                  </div>
+                  <div class="shopee-card-collapsed-preview${isCardCollapsed?' show':''}">
+                    <span class="cp-chip">งวดละ ฿${fmt(loan.monthlyAmt)}</span>
+                    <span class="cp-chip warn">เหลือ ${remainCount} งวด</span>
+                    <span class="cp-chip ${fullyPaid?'green':''}">ค้าง ฿${fmt(remainAmt)}</span>
+                    <span class="cp-chip" style="background:rgba(108,99,255,0.12);color:var(--accent)">${pct}%</span>
+                  </div>
+                  <div class="shopee-card-body${isCardCollapsed?' collapsed':''}">
+                  <div class="shopee-progress-wrap">
+                    <div class="shopee-progress-info">
+                      <span>จ่ายแล้ว ${paidCount}/${loan.months} งวด</span>
+                      <span>${pct}%</span>
+                    </div>
+                    <div class="shopee-progress-track">
+                      <div class="shopee-progress-fill ${fullyPaid?'done':''}" style="width:${pct}%"></div>
+                    </div>
+                  </div>
+                  <div class="shopee-stats-row">
+                    <div class="shopee-stat">
+                      <div class="shopee-stat-label">งวดละ</div>
+                      <div class="shopee-stat-val red">฿ ${fmt(loan.monthlyAmt)}</div>
+                    </div>
+                    <div class="shopee-stat">
+                      <div class="shopee-stat-label">เหลืออีก</div>
+                      <div class="shopee-stat-val warn">${remainCount} เดือน</div>
+                    </div>
+                    <div class="shopee-stat">
+                      <div class="shopee-stat-label">ยอดค้าง</div>
+                      <div class="shopee-stat-val ${fullyPaid?'green':'red'}">฿ ${fmt(remainAmt)}</div>
+                    </div>
+                  </div>
+                  </div>`;
+
+                // Build schedule HTML and inject into card body
+                const schedKey = `shopee_sched_collapsed_${loan.key}`;
+                const isCollapsed = sessionStorage.getItem(schedKey) === '1';
+                const nextUnpaid = schedule.find(s => !s.paid);
+                const paidInSched = schedule.filter(s => s.paid).length;
+                const previewText = nextUnpaid
+                    ? `งวดถัดไป: งวดที่ ${nextUnpaid.installment} — ${nextUnpaid.date} — ฿ ${fmt(nextUnpaid.amount)}`
+                    : `ชำระครบทุกงวดแล้ว ✅`;
+
+                let schedHTML = `<div class="shopee-schedule" style="margin:0 0 0;border-radius:0 0 var(--r) var(--r);">
+                  <div class="shopee-schedule-title${isCollapsed ? ' collapsed' : ''}" onclick="shopeeToggleSched(this, '${schedKey}')">
+                    <i class="bi bi-calendar3"></i>
+                    ตารางชำระรายงวด
+                    <span style="margin-left:6px;opacity:0.5;font-weight:400">(${schedule.length} งวด)</span>
+                    <i class="bi bi-chevron-down sched-toggle-icon"></i>
+                  </div>
+                  <div class="shopee-sched-preview" style="display:${isCollapsed ? 'flex' : 'none'}">
+                    <span>${previewText}</span>
+                    ${nextUnpaid ? `<span class="sched-preview-chip">จ่ายแล้ว ${paidInSched}/${schedule.length}</span>` : `<span class="sched-preview-chip green">ครบ ✅</span>`}
+                  </div>
+                  <div class="shopee-schedule-body${isCollapsed ? ' collapsed' : ''}">`;
+                schedule.forEach((inst, i) => {
+                    const isCurrent = inst.monthKey === curMk;
+                    schedHTML += `
+                      <div class="shopee-schedule-row ${inst.paid?'paid':''} ${isCurrent&&!inst.paid?'current-month':''}">
+                        <div class="shopee-install-num ${inst.paid?'paid':isCurrent?'current':''}">${inst.paid?'✓':inst.installment}</div>
+                        <div class="shopee-install-info">
+                          <div class="shopee-install-date">${inst.date}</div>
+                          <div class="shopee-install-month">งวดที่ ${inst.installment}${isCurrent&&!inst.paid?' — <span style="color:#ee4d2d;font-weight:700">เดือนนี้!</span>':''}</div>
+                        </div>
+                        <div class="shopee-install-amt ${inst.paid?'paid':''}">฿ ${fmt(inst.amount)}</div>
+                        <button class="shopee-pay-toggle ${inst.paid?'paid':''}" onclick="shopeeTogglePay('${loan.key}',${i})" title="${inst.paid?'ยังไม่ได้จ่าย':'ทำเครื่องหมายจ่ายแล้ว'}">
+                          ${inst.paid?'<i class="bi bi-check-lg"></i>':'<i class="bi bi-circle"></i>'}
+                        </button>
+                      </div>`;
+                });
+                schedHTML += `</div></div>`;
+
+                // Inject schedule into card body
+                card.querySelector('.shopee-card-body').insertAdjacentHTML('beforeend', schedHTML);
+                list.appendChild(card);
+            });
+        }
+
+        window.shopeeToggleCard = (btn, storageKey) => {
+            const card = btn.closest('.shopee-card');
+            const body = card.querySelector('.shopee-card-body');
+            const preview = card.querySelector('.shopee-card-collapsed-preview');
+            const isNowCollapsed = btn.classList.toggle('collapsed');
+            body.classList.toggle('collapsed', isNowCollapsed);
+            if (preview) preview.classList.toggle('show', isNowCollapsed);
+            sessionStorage.setItem(storageKey, isNowCollapsed ? '1' : '0');
+            // update collapse-all icon
+            shopeeUpdateCollapseAllIcon();
+        };
+
+        window.shopeeToggleAllCards = () => {
+            const cards = document.querySelectorAll('#shopeeList .shopee-card');
+            const anyExpanded = [...cards].some(c => !c.querySelector('.shopee-card-toggle-btn')?.classList.contains('collapsed'));
+            cards.forEach(card => {
+                const btn = card.querySelector('.shopee-card-toggle-btn');
+                const body = card.querySelector('.shopee-card-body');
+                const preview = card.querySelector('.shopee-card-collapsed-preview');
+                if (!btn || !body) return;
+                const shouldCollapse = anyExpanded;
+                btn.classList.toggle('collapsed', shouldCollapse);
+                body.classList.toggle('collapsed', shouldCollapse);
+                if (preview) preview.classList.toggle('show', shouldCollapse);
+                // find storageKey from onclick attr
+                const match = btn.getAttribute('onclick')?.match(/'([^']+)'\)$/);
+                if (match) sessionStorage.setItem(match[1], shouldCollapse ? '1' : '0');
+            });
+            shopeeUpdateCollapseAllIcon();
+        };
+
+        function shopeeUpdateCollapseAllIcon() {
+            const cards = document.querySelectorAll('#shopeeList .shopee-card');
+            const allCollapsed = [...cards].every(c => c.querySelector('.shopee-card-toggle-btn')?.classList.contains('collapsed'));
+            const icon = document.getElementById('shopeeCollapseAllIcon');
+            if (!icon) return;
+            icon.className = allCollapsed ? 'bi bi-arrows-expand' : 'bi bi-arrows-collapse';
+        }
+
+        window.shopeeToggleSched = (titleEl, storageKey) => {
+            const preview = titleEl.nextElementSibling;   // .shopee-sched-preview
+            const body = preview?.nextElementSibling;      // .shopee-schedule-body
+            if (!body) return;
+            const isNowCollapsed = titleEl.classList.toggle('collapsed');
+            body.classList.toggle('collapsed', isNowCollapsed);
+            if (preview) preview.style.display = isNowCollapsed ? 'flex' : 'none';
+            sessionStorage.setItem(storageKey, isNowCollapsed ? '1' : '0');
+        };
+
+        window.shopeeAddLoan = async () => {
+            const today = new Date().toISOString().split("T")[0];
+            const { value } = await Swal.fire({
+                title: '<span style="font-family:Kanit">➕ เพิ่มรายการหนี้ผ่อน Shopee</span>',
+                html: `<div style="display:flex;flex-direction:column;gap:12px;text-align:left;font-family:Kanit">
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">ชื่อรายการ / สินค้า</label>
+                  <input id="sn" class="swal2-input" placeholder="เช่น iPhone 16 Pro Max" style="margin:0;width:100%"></div>
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">วันที่สมัครกู้ (วันชำระแต่ละเดือน)</label>
+                  <input id="sd" type="date" class="swal2-input" value="${today}" style="margin:0;width:100%"></div>
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">จำนวนเงินกู้ทั้งหมด (฿)</label>
+                  <input id="st" type="number" class="swal2-input" placeholder="0.00" min="0" step="any" style="margin:0;width:100%" oninput="shopeeCalc()"></div>
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">จำนวนเดือนที่ผ่อน</label>
+                  <input id="sm" type="number" class="swal2-input" placeholder="เช่น 12" min="1" max="120" step="1" style="margin:0;width:100%" oninput="shopeeCalc()"></div>
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">งวดละ (฿/เดือน) — กรอกเองหรือคำนวณอัตโนมัติ</label>
+                  <input id="sma" type="number" class="swal2-input" placeholder="คำนวณอัตโนมัติ" min="0" step="any" style="margin:0;width:100%"></div>
+                  <div id="shopeePreview" style="background:rgba(238,77,45,0.08);border:1px solid rgba(238,77,45,0.2);border-radius:12px;padding:10px 14px;font-size:.78rem;color:#ee4d2d;display:none">
+                    <span id="shopeePreviewText"></span>
+                  </div>
+                </div>`,
+                didOpen: () => { window.shopeeCalc = () => {
+                    const t = parseFloat(document.getElementById("st")?.value);
+                    const m = parseInt(document.getElementById("sm")?.value);
+                    const maEl = document.getElementById("sma");
+                    const prev = document.getElementById("shopeePreview");
+                    const prevTxt = document.getElementById("shopeePreviewText");
+                    if (t > 0 && m > 0 && maEl && !maEl.value) {
+                        const auto = Math.ceil(t / m * 100) / 100;
+                        maEl.placeholder = `≈ ฿ ${auto.toLocaleString("th-TH", {maximumFractionDigits:2})}`;
+                    }
+                    if (t > 0 && m > 0 && prev && prevTxt) {
+                        const ma = parseFloat(maEl?.value) || Math.ceil(t/m*100)/100;
+                        prevTxt.textContent = `สรุป: ยอดรวม ฿${t.toLocaleString()} | ${m} งวด | งวดละ ฿${ma.toLocaleString("th-TH",{maximumFractionDigits:2})} | รวมจ่ายทั้งหมด ฿${(ma*m).toLocaleString("th-TH",{maximumFractionDigits:2})}`;
+                        prev.style.display = "block";
+                    }
+                }; },
+                showCancelButton: true,
+                confirmButtonText: "บันทึก",
+                cancelButtonText: "ยกเลิก",
+                preConfirm: () => {
+                    const name = document.getElementById("sn").value.trim();
+                    const startDate = document.getElementById("sd").value;
+                    const totalAmt = parseFloat(document.getElementById("st").value);
+                    const months = parseInt(document.getElementById("sm").value);
+                    const maInput = parseFloat(document.getElementById("sma").value);
+                    const monthlyAmt = maInput > 0 ? maInput : Math.ceil(totalAmt / months * 100) / 100;
+                    if (!name || !startDate || isNaN(totalAmt) || isNaN(months) || months < 1) {
+                        Swal.showValidationMessage("กรุณากรอกข้อมูลให้ครบถ้วน");
+                        return false;
+                    }
+                    return { name, startDate, totalAmt, months, monthlyAmt, paidMonths: {} };
+                }
+            });
+            if (value) { await push(shopeeRef, value); toast("success", "เพิ่มรายการผ่อนชำระแล้ว 🛒"); }
+        };
+
+        window.shopeeEdit = async (key) => {
+            const loan = shopeeLoans[key];
+            if (!loan) return;
+            const { value } = await Swal.fire({
+                title: '<span style="font-family:Kanit">✏️ แก้ไขรายการผ่อน</span>',
+                html: `<div style="display:flex;flex-direction:column;gap:12px;text-align:left;font-family:Kanit">
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">ชื่อรายการ / สินค้า</label>
+                  <input id="sn" class="swal2-input" value="${esc(loan.name)}" style="margin:0;width:100%"></div>
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">วันที่สมัครกู้</label>
+                  <input id="sd" type="date" class="swal2-input" value="${loan.startDate}" style="margin:0;width:100%"></div>
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">จำนวนเงินกู้ทั้งหมด (฿)</label>
+                  <input id="st" type="number" class="swal2-input" value="${loan.totalAmt}" min="0" step="any" style="margin:0;width:100%"></div>
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">จำนวนเดือนที่ผ่อน</label>
+                  <input id="sm" type="number" class="swal2-input" value="${loan.months}" min="1" max="120" step="1" style="margin:0;width:100%"></div>
+                  <div><label style="font-size:.75rem;color:#9090B0;display:block;margin-bottom:4px">งวดละ (฿/เดือน)</label>
+                  <input id="sma" type="number" class="swal2-input" value="${loan.monthlyAmt}" min="0" step="any" style="margin:0;width:100%"></div>
+                </div>`,
+                showCancelButton: true,
+                confirmButtonText: "บันทึก",
+                cancelButtonText: "ยกเลิก",
+                preConfirm: () => {
+                    const name = document.getElementById("sn").value.trim();
+                    const startDate = document.getElementById("sd").value;
+                    const totalAmt = parseFloat(document.getElementById("st").value);
+                    const months = parseInt(document.getElementById("sm").value);
+                    const monthlyAmt = parseFloat(document.getElementById("sma").value);
+                    if (!name || !startDate || isNaN(totalAmt) || isNaN(months) || isNaN(monthlyAmt)) {
+                        Swal.showValidationMessage("กรุณากรอกข้อมูลให้ครบถ้วน");
+                        return false;
+                    }
+                    return { name, startDate, totalAmt, months, monthlyAmt };
+                }
+            });
+            if (value) { await update(ref(db, `shopeeLoans/${key}`), value); toast("success", "อัปเดตแล้ว ✓"); }
+        };
+
+        window.shopeeDelete = async (key) => {
+            const loan = shopeeLoans[key];
+            const r = await Swal.fire({ title: `ลบ "${loan?.name}"?`, text: "จะลบรายการนี้ออก ไม่สามารถกู้คืนได้", icon: "warning", showCancelButton: true, confirmButtonText: "ลบเลย", cancelButtonText: "ยกเลิก", confirmButtonColor: "#FF6584" });
+            if (r.isConfirmed) { await remove(ref(db, `shopeeLoans/${key}`)); toast("success", "ลบรายการแล้ว"); }
+        };
+
+        window.shopeeTogglePay = async (key, instIndex) => {
+            const loan = shopeeLoans[key];
+            if (!loan) return;
+            const paidMonths = loan.paidMonths || {};
+            const instKey = `inst_${instIndex}`;
+            const nowPaid = paidMonths[instKey] === true;
+            await update(ref(db, `shopeeLoans/${key}/paidMonths`), { [instKey]: !nowPaid });
+            toast(nowPaid ? "info" : "success", nowPaid ? "ยกเลิกการจ่าย" : "บันทึกการชำระแล้ว ✅");
+        };
+
+        onValue(shopeeRef, (snap) => {
+            shopeeLoans = snap.val() || {};
+            shopeeRender();
+        });
     </script>
 </body>
 </html>
